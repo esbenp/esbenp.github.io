@@ -7,6 +7,10 @@ author:     "Esben Petersen"
 header-img: "img/post-bg-01.jpg"
 ---
 
+<i>
+    Note: some additions to the app.php config file and the proxy class were added on 22nd of June 2015 in response to breaking changes in the Lumen framework and with the release of Guzzle 6.
+</i>
+
 ## Introduction
 
 <p>
@@ -214,10 +218,15 @@ return [
 <?php
 return [
     'url' => 'http://oauth-tutorial.dev',
-    'key' => 'U<CdJu~T&.g/kR-NX55h]HfB+bb,b7Y*'
+    'key' => 'U<CdJu~T&.g/kR-NX55h]HfB+bb,b7Y*',
+    'cipher' => 'AES-256-CBC'
 ];
 ?>
 {% endhighlight %}
+
+<i>
+    Note: the cipher entry was added 22nd of June, as this is now a required configuration since Lumen 5.1 for the encrypt/decrypt library to work.
+</i>
 
 <p>
     Add configure statement to <code>bootstrap/app.php</code>
@@ -513,24 +522,24 @@ class Proxy {
 
             $client = new Client();
             $guzzleResponse = $client->post(sprintf('%s/oauth/access-token', $config->get('app.url')), [
-                'body' => $data
+                'form_params' => $data
             ]);
         } catch(\GuzzleHttp\Exception\BadResponseException $e) {
             $guzzleResponse = $e->getResponse();
             
         }
 
-        $response = $guzzleResponse->json();
+        $response = json_decode($guzzleResponse->getBody());
 
-        if (isset($response['access_token'])) {
+        if (property_exists($response, "access_token")) {
             $cookie = app()->make('cookie');
             $crypt  = app()->make('encrypter');
 
-            $encryptedToken = $crypt->encrypt($response['refresh_token']);
+            $encryptedToken = $crypt->encrypt($response->refresh_token);
 
             // Set the refresh token as an encrypted HttpOnly cookie
             $cookie->queue('refreshToken', 
-                $crypt->encrypt($response['refresh_token']),
+                $crypt->encrypt($encryptedToken),
                 604800, // expiration, should be moved to a config file
                 null, 
                 null, 
@@ -539,8 +548,8 @@ class Proxy {
             );
 
             $response = [
-                'accessToken'            => $response['access_token'],
-                'accessTokenExpiration'  => $response['expires_in']
+                'accessToken'            => $response->access_token,
+                'accessTokenExpiration'  => $response->expires_in
             ];
         }
 
@@ -558,6 +567,10 @@ class Proxy {
 }
 ?>
 {% endhighlight %}
+
+<i>
+    Note: some changes were added to the proxy class on 22nd of June 2015, as Guzzle 6 was released and it depreciated the use of the 'body' key for POST params. It also included the use of PSR-7 responses which to not have a json() function.
+</i>
 
 <p>
     I will not go to much into the details of the class. In short we have to options.
