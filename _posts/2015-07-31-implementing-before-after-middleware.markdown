@@ -9,7 +9,7 @@ header-img: "img/post-bg-03.jpg"
 
 <p>
     Middleware is a crazy popular mechanism in coding these days.
-    <a href="http://laravel.com/docs/5.1/middleware">Laravel</a> has implemented it for its router giving
+    <a href="http://laravel.com/docs/5.1/middleware">Laravel</a> has implemented it for its router, giving
     you the possibility to run actions on a request before and after it is executed. Likewise the web application
     framework for Node <a href="http://expressjs.com/guide/using-middleware.html">Express.js</a> has
     also a middleware implementation with middleware libraries for different things
@@ -30,7 +30,7 @@ header-img: "img/post-bg-03.jpg"
     Imagine you are making a request <code>GET /users</code> to an
     API. The actual action of GETting users from the database is displayed as the
     white circle in the middle. But before this can happen we want to run some middleware.
-    Here we notice that there are two types of middleware: (1) before and (2) after.
+    As pictured there are two types of middleware: (1) before and (2) after.
     Before middleware is run against the request before the execution of the actual
     action it requests (duh). Examples of this could be checking if the user
     is authenticated and authorized, if the CSRF token sent with the request is valid
@@ -42,26 +42,27 @@ header-img: "img/post-bg-03.jpg"
     get an array of users from the database to send back to the client. But before
     the response reaches the client we want to do some post-action work on it.
     This is after middleware. Examples could be adding CORS headers, adding cookies,
-    or caching the result. We could then implement some before middleware to
+    or caching the result. If we implemented caching after middleware,
+    we could then implement some before middleware to
     check for a cached version of the resource before actually getting it
     from database.
 </p>
 
-## So it's a router thing?
+## So it is a router thing?
 
 <p>
     Not at all! The concept is really versatile if you think about it, and it can be implemented in
     many different scenarios.
 </p>
 
-### Use case: a uploader
+### Use case: an uploader
 
 <p>
     At <a href="http://traede.com">Traede</a> we are currently implementing middleware in our
     uploader functionality. Our users upload many product pictures, user profile pictures
     etc. All these we store in our CDN hosted by <a href="http://cloudinary.com">Cloudinary</a>.
-    But before we actually upload the picture to Cloudinary we do some quick work
-    before, and after the image has been uploaded we do some clean up.
+    But before we actually upload the picture to Cloudinary we do some quick work,
+    and after the image has been uploaded we do some clean up.
 </p>
 
 <img src="/img/middleware2.png" alt="Uploader middleware in Traede">
@@ -69,7 +70,7 @@ header-img: "img/post-bg-03.jpg"
 <p>
     This is how our uploader looks in Traede. The user drops a file in the drop area and it
     displays a small box with a thumbnail and the status of the image. The thumbnail is
-    actually created using thumbnail middleware. Our middleware pipeline runs like this
+    created using thumbnail middleware. Our middleware pipeline runs like this
 </p>
 
 <ol>
@@ -81,9 +82,9 @@ header-img: "img/post-bg-03.jpg"
 <img src="/img/middleware3.jpg" alt="Diagram of uploader middleware mechanism in Traede">
 
 <p>
-    There are probably many more middleware to be implemented in our uploader. But, for now,
-    these are the ones we use. This was just a simple demonstration of how epic
-    middleware obviously can be.
+    There are probably many more middleware classes to be implemented in our uploader.
+    But, for now, these are the ones we use. This was just a simple
+    demonstration of how epic middleware can obviously be.
 </p>
 
 ## Gotcha! Now gimme middleware!
@@ -99,7 +100,7 @@ header-img: "img/post-bg-03.jpg"
 
 <ul>
     <li>The actual action (e.g. upload to Cloudinary) is called the core of the onion</li>
-    <li>Middleware are called layers (Onion layers - clever, no?)</li>
+    <li>Middleware classes are called layers (Onion layers - clever, no?)</li>
 </ul>
 
 <img src="/img/middleware4.jpg" alt="The middleware onion">
@@ -107,7 +108,7 @@ header-img: "img/post-bg-03.jpg"
 ### A quick example
 
 <p>
-    The below example has two different middleware layers: a before and after.
+    The below example has two different middleware layers: a before and an after.
     The object we pass through our pipeline is a simple object with an array.
     Each actor that interacts with the object will log itself in the array.
 </p>
