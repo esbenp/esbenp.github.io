@@ -4,7 +4,7 @@ title:      "Implementing before/after middleware in PHP"
 subtitle:   "Middleware is sexy and all around us - how can we implement a general solution?"
 date:       2015-07-31 12:00:00
 author:     "Esben Petersen"
-header-img: "img/post-bg-01.jpg"
+header-img: "img/post-bg-03.jpg"
 ---
 
 <p>
