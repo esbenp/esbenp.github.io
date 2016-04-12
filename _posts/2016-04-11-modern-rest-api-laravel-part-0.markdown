@@ -50,7 +50,7 @@ header-img: "img/post-bg-01.jpg"
   faced in developing the <a href="http://traede.com">Traede API</a>
 </p>
 
-### Part 1: A scalable structure
+<h2><a href="/2016/04/11/modern-rest-api-laravel-part-1/">Part 1: A scalable structure</a></h2>
 
 <p>
   The first part is about how we can structure our API, so that it will not blow up in our
@@ -62,6 +62,10 @@ header-img: "img/post-bg-01.jpg"
   <li>Project folder structure</li>
   <li>Resource folder structure</li>
 </ol>
+
+<p>
+  <strong><a href="/2016/04/11/modern-rest-api-laravel-part-1/">Go to part 1</a></strong>
+</p>
 
 ### Part 2: Creating resources with controls
 
