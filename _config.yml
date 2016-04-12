@@ -8,6 +8,7 @@ url: "http://esbenp.github.io"
 twitter_username: esbenp
 github_username:  esbenp
 facebook_username:  esbenspetersen
+timezone: Europe/Copenhagen
 
 # Build settings
 highlighter: pygments
