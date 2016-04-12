@@ -2,7 +2,7 @@
 layout:     post
 title:      "A modern REST API in Laravel 5 Part 0: Introduction"
 subtitle:   "Get started building the REST API of your dreams"
-date:       2016-03-27 12:00:00
+date:       2016-04-12 17:04:00
 author:     "Esben Petersen"
 header-img: "img/post-bg-01.jpg"
 ---
