@@ -1,0 +1,27 @@
+Laravel API
+===========
+1. Introduction / project structure
+  1.1 Not an introduction to REST APIs
+    1.1.1 APIs you wont hate
+  1.2 Infrastructure / business (hexagonial?)
+  1.3 Resource structure
+  1.4 Service / repository pattern
+2. Building resources
+  3.1 Relationships
+  3.2 Filters
+  3.3 Pagination
+3. Error handling
+  4.1 Exceptions
+  4.2 Error handler
+  4.3 Format (standards JSON-API)
+  4.4 Sentry
+4. Authentication / authorization
+  1.1 OAuth setup
+  1.2 Relationship checking
+  1.3 Permissions / roles
+5. Webhooks
+  5.1 Inbound
+  5.2 Outbound
+
+
+EVENTS???
