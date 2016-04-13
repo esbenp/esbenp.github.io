@@ -534,53 +534,54 @@ class User extends EloquentModel
 ### Level 3: Resource folder structure
 
 <!-- Do not change the indention of the HTML here! it will break the rendering -->
-  <div class="row">
-  <div class="col-md-4">
-    <img src="/img/bad-project-structure.png">
-  </div>
-  <div class="col-md-8">
-  <p style="margin-top:0">
-    What you see on the left is an example of how our code base grew at Traede.
-    Laravel by default is organized such that the code is "grouped-by-type".
-    So all the controllers are in a folder together, all the
-    models are in a folder together, all the events are in a folder together etc.
-  </p>
+<div class="row">
+<div class="col-md-4">
+  <img src="/img/bad-project-structure.png">
+</div>
+<div class="col-md-8">
+<p style="margin-top:0">
+  What you see on the left is an example of how our code base grew at Traede.
+  Laravel by default is organized such that the code is "grouped-by-type".
+  So all the controllers are in a folder together, all the
+  models are in a folder together, all the events are in a folder together etc.
+</p>
 
-  <p>
-    What often happened was that I would be working on let us say the "Products component"
-    of our API. The files of interest can be described as below.
-  </p>
+<p>
+  What often happened was that I would be working on let us say the "Products component"
+  of our API. The files of interest can be described as below.
+</p>
 
-  ```bash
-  / app
-    / Http
-      / Controllers
-        ..
-        / ProductController.php
-        ..
-    / Models
+{% highlight bash %}
+/ app
+  / Http
+    / Controllers
       ..
-      Product.php
-      ProductVariant.php
-      ProductVariantPrice.php
+      / ProductController.php
       ..
-    / Repositories
-      ..
-      ProductRepository.php
-      ProductVariantRepository.php
-      ProductVariantPriceRepository.php
-      ..
-    / Services
-      ..
-      ProductService.php
-      VariantService.php
-      ..
-  ```
-  <p class="note" style="margin-bottom:0;margin-top:-25px;">
-    <code>..</code> represents other files and folders.
-  </p>
-  </div>
-  </div>
+  / Models
+    ..
+    Product.php
+    ProductVariant.php
+    ProductVariantPrice.php
+    ..
+  / Repositories
+    ..
+    ProductRepository.php
+    ProductVariantRepository.php
+    ProductVariantPriceRepository.php
+    ..
+  / Services
+    ..
+    ProductService.php
+    VariantService.php
+    ..
+{% endhighlight %}
+
+<p class="note" style="margin-bottom:0;">
+  <code>..</code> represents other files and folders.
+</p>
+</div>
+</div>
 
 <p>
    As you can imagine your files are spread very far from each other vertically in your
@@ -597,56 +598,56 @@ class User extends EloquentModel
 </p>
 
 <!-- Do not change the indention of the HTML here! it will break the rendering -->
-  <div class="row">
-  <div class="col-md-4">
-    <img src="/img/better-project-structure.png">
-  </div>
-  <div class="col-md-8">
-  <p style="margin-top:0">
-    As you can see we have divided the core product of Traede into 8 separate components.
-    A component typically has these folders
-  </p>
+<div class="row">
+<div class="col-md-4">
+  <img src="/img/better-project-structure.png">
+</div>
+<div class="col-md-8">
+<p style="margin-top:0">
+  As you can see we have divided the core product of Traede into 8 separate components.
+  A component typically has these folders
+</p>
 
-  ```bash
-  / Products
-    / Controllers
-      # We typically have a controller per
-      # resource, e.g. ProductController,
-      # TagController, VariantController etc.
-    / Events
-      # All the events that can be raised by
-      # the component, e.g. ProductWasCreated,
-      # VariantPriceDeleted etc.
-    / Exceptions
-      # All exceptions. We currently have about 20
-      # custom exceptions for products like
-      # DuplicateSkuException and
-      # BasePriceNotDefinedException
-    / Listeners
-      # Listeners for events
-    / Models
-      # Eloquent models: Product, Variant, Tag etc.
-    / Repositories
-      # We typically have a repository per eloquent model
-      # ProductRepository, VariantRepository etc.
-    / Requests
-      # HTTP requests for validation
-    / Services
-      # A few larger classes that string together operations
-      # typically we make one per controller, like
-      # ProductController -> ProductService
-    / Tests
-      # All tests for the component
-    # Typically used to connect events and listeners.
-    ProductServiceProvider.php
-    # All the routes for the component. Having distributed
-    # route files, makes them ALOT more clear when you
-    # have 100+ routes :-)
-    routes.php
-  ```
+{% highlight bash %}
+/ Products
+  / Controllers
+    # We typically have a controller per
+    # resource, e.g. ProductController,
+    # TagController, VariantController etc.
+  / Events
+    # All the events that can be raised by
+    # the component, e.g. ProductWasCreated,
+    # VariantPriceDeleted etc.
+  / Exceptions
+    # All exceptions. We currently have about 20
+    # custom exceptions for products like
+    # DuplicateSkuException and
+    # BasePriceNotDefinedException
+  / Listeners
+    # Listeners for events
+  / Models
+    # Eloquent models: Product, Variant, Tag etc.
+  / Repositories
+    # We typically have a repository per eloquent model
+    # ProductRepository, VariantRepository etc.
+  / Requests
+    # HTTP requests for validation
+  / Services
+    # A few larger classes that string together operations
+    # typically we make one per controller, like
+    # ProductController -> ProductService
+  / Tests
+    # All tests for the component
+  # Typically used to connect events and listeners.
+  ProductServiceProvider.php
+  # All the routes for the component. Having distributed
+  # route files, makes them ALOT more clear when you
+  # have 100+ routes :-)
+  routes.php
+{% endhighlight %}
 
-  </div>
-  </div>
+</div>
+</div>
 
 <p>
   So this clears up what happened to the <code>tests/</code> folder of the
