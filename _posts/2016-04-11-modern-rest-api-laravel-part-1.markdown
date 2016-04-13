@@ -56,7 +56,7 @@ header-img: "img/post-bg-01.jpg"
   Imagine something like this...
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 class UserController extends Controller
 {
     public function create(Request $request)
@@ -99,7 +99,7 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 }
-{% endhighlight %}
+```
 
 <p class="note">
   NOTE: This is very much a contrived example, probably not even valid code, to demonstrate
@@ -110,14 +110,14 @@ class UserController extends Controller
   Now imagine your user resource has many endpoints.
 </p>
 
-{% highlight php %}
+```php
 GET /users
 GET /users/{id}
 POST /users
 PUT /users/{id}
 DELETE /users/{id}
 // etc.
-{% endhighlight %}
+```
 
 <p>
   The UserController quickly grows into a monstrosity of duct-tape-code barely holding the fort together.
@@ -203,7 +203,7 @@ DELETE /users/{id}
 
 #### 1. The controller
 
-{% highlight php startinline %}
+```php?start_inline=1
 class UserController extends Controller
 {
     private $userService;
@@ -219,8 +219,8 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 }
-{% endhighlight %}
-{% highlight php startinline %}
+```
+```php?start_inline=1
 class CreateUserRequest extends Request
 {
     public function authorize()
@@ -236,7 +236,7 @@ class CreateUserRequest extends Request
         ];
     }
 }
-{% endhighlight %}
+```
 
 <p>
   As it is evident, not a lot of stuff going on. This is to ensure our controllers can grow.
@@ -255,7 +255,7 @@ class CreateUserRequest extends Request
 
 #### 3. The service class
 
-{% highlight php startinline %}
+```php?start_inline=1
 <?php
 
 namespace App\Services;
@@ -318,19 +318,19 @@ class UserService
         return $user;
     }
 }
-{% endhighlight %}
+```
 
 <p>
   Okay, so a lot of stuff going on here. Let us break it down step by step.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 $account = $this->auth->getCurrentUser();
 
 // Check if the user has permission to create other users.
 // Will throw an exception if not.
 $account->checkPermission('users.create');
-{% endhighlight %}
+```
 
 <p>
   We get the current user (i.e. the user that makes the request). We have to check
@@ -339,13 +339,13 @@ $account->checkPermission('users.create');
   users an exception will be thrown.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 // Use our validation helper to check if the given email
 // is unique within the account.
 if (!$this->userValidator->isEmailUniqueWithinAccount($data['email'], $account->id)) {
     throw new EmailIsNotUniqueException($data['email']);
 }
-{% endhighlight %}
+```
 
 <p>
   Okay, so I realize this could have been done in the request validation using an
@@ -358,7 +358,7 @@ if (!$this->userValidator->isEmailUniqueWithinAccount($data['email'], $account->
   on this in part 3.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 // Set the account ID on the user and create the record in the database
 $data['account_id'] = $account->id;
 $user = $this->userRepository->create($data);
@@ -367,7 +367,7 @@ $user = $this->userRepository->create($data);
 // call $user->account without quering the database. This is useful if
 // we need to call $user->account in any of the event listeners
 $user->setRelation('account', $account);
-{% endhighlight %}
+```
 
 <p>
   So in our fictitious example we have 1 account. And each account can have many users.
@@ -385,12 +385,12 @@ Accounts 1 -------> n Users
   of achieving the goal.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 // Fire an event so that listeners can react
 $this->dispatcher->fire(new UserWasCreated($user));
 
 return $user;
-{% endhighlight %}
+```
 
 <p>
   We fire an event through the event system for listeners to react to. In this example
@@ -405,7 +405,7 @@ return $user;
 
 #### 4. The repository
 
-{% highlight php startinline %}
+```php?start_inline=1
 class UserRepository
 {
     public function create(array $data)
@@ -433,8 +433,8 @@ class UserRepository
         return $user;
     }
 }
-{% endhighlight %}
-{% highlight php startinline %}
+```
+```php?start_inline=1
 class User extends EloquentModel
 {
     protected $fillable = [
@@ -443,7 +443,7 @@ class User extends EloquentModel
 
     // Activation relation
 }
-{% endhighlight %}
+```
 
 <p>
   For now our repository is super simple. Later on, we will let it extend a base
@@ -510,7 +510,7 @@ class User extends EloquentModel
   In the <code>autoload</code> section of your <code>composer.json</code> set it up like so.
 </p>
 
-{% highlight javascript %}
+```json
 // ...
 "psr-4": {
   "Apps\\": "app-store/",
@@ -518,7 +518,7 @@ class User extends EloquentModel
   "Infrastructure\\": "infrastructure/"
 }
 // ...
-{% endhighlight %}
+```
 
 <p>
   If you want tests to be run you will also have to add a testsuite to <code>phpunit.xml</code>.
@@ -551,7 +551,7 @@ class User extends EloquentModel
     of our API. The files of interest can be described as below.
   </p>
 
-  {% highlight bash %}
+  ```bash
   / app
     / Http
       / Controllers
@@ -575,7 +575,7 @@ class User extends EloquentModel
       ProductService.php
       VariantService.php
       ..
-  {% endhighlight %}
+  ```
   <p class="note" style="margin-bottom:0;margin-top:-25px;">
     <code>..</code> represents other files and folders.
   </p>
@@ -607,7 +607,7 @@ class User extends EloquentModel
     A component typically has these folders
   </p>
 
-  {% highlight bash %}
+  ```bash
   / Products
     / Controllers
       # We typically have a controller per
@@ -643,7 +643,7 @@ class User extends EloquentModel
     # route files, makes them ALOT more clear when you
     # have 100+ routes :-)
     routes.php
-  {% endhighlight %}
+  ```
 
   </div>
   </div>
@@ -674,7 +674,7 @@ class User extends EloquentModel
   validation rules etc. It looks like this.
 </p>
 
-{% highlight bash %}
+```bash
 / infrastructure
   .. # Other infrastructure components
   / Validation
@@ -684,7 +684,7 @@ class User extends EloquentModel
         / validation.php
     # Loads custom validation rules
     ValidationServiceProvider.php
-{% endhighlight %}
+```
 
 ## Getting started
 

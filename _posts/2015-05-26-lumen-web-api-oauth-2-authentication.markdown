@@ -15,22 +15,22 @@ header-img: "img/post-bg-01.jpg"
 
 <p>
     <a href="http://lumen.laravel.com">Lumen</a> was recently released as a micro-framework brother for <a href="http://laravel.com">Laravel</a>.
-    It immediately caught my attention as we use Laravel for writing our REST API at <a href="http://traede.com">Traede</a>. Our client is written 
-    in javascript and we therefore only use Laravel for the API. Lumen therefore seemed interesting as the intention is using it for writing 
+    It immediately caught my attention as we use Laravel for writing our REST API at <a href="http://traede.com">Traede</a>. Our client is written
+    in javascript and we therefore only use Laravel for the API. Lumen therefore seemed interesting as the intention is using it for writing
     speedy APIs.
 </p>
 
 <p>
-    I quickly started looking at Lumen as a potential replacement for Laravel. One thing I quickly discovered though was that Laravel packages are 
-    not directly compatible with Lumen. Therefore a small bridge is often needed to close the gap. We use OAuth2 for API authentication and therefore 
-    the first bridge I wrote for Lumen was one for the excellent OAuth2 package 
-    <a href="https://github.com/lucadegasperi/oauth2-server-laravel">oauth2-server-laravel</a> by 
+    I quickly started looking at Lumen as a potential replacement for Laravel. One thing I quickly discovered though was that Laravel packages are
+    not directly compatible with Lumen. Therefore a small bridge is often needed to close the gap. We use OAuth2 for API authentication and therefore
+    the first bridge I wrote for Lumen was one for the excellent OAuth2 package
+    <a href="https://github.com/lucadegasperi/oauth2-server-laravel">oauth2-server-laravel</a> by
     <a href="https://github.com/lucadegasperi">Luca Degasperi</a>.
 </p>
 
 <p>
-    This post serves as a quick introduction on how to set it up. A README can also be found in the repository: 
-    <a href="https://github.com/esbenp/oauth2-server-lumen">esbenp/oauth2-server-lumen</a>. At the same time I will demonstrate how tokens can be 
+    This post serves as a quick introduction on how to set it up. A README can also be found in the repository:
+    <a href="https://github.com/esbenp/oauth2-server-lumen">esbenp/oauth2-server-lumen</a>. At the same time I will demonstrate how tokens can be
     managed by a javascript client using <a href="https://github.com/esbenp/jquery-oauth">esbenp/jquery-oauth</a>
 </p>
 
@@ -40,50 +40,50 @@ header-img: "img/post-bg-01.jpg"
     I assume you already have an installation of Lumen. First of all require the package using composer.
 </p>
 
-{% highlight bash %}
+```bash
 composer require optimus/oauth2-server-lumen 0.1.*
-{% endhighlight %}
+```
 
 ### Registering service providers
 
 <p>
-    Next, register the service providers. In your <code>bootstrap/app.php</code> add the following registration along side 
+    Next, register the service providers. In your <code>bootstrap/app.php</code> add the following registration along side
     other service providers.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 // ... Other service providers
 $app->register('LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider');
 $app->register('Optimus\OAuth2Server\OAuth2ServerServiceProvider');
-{% endhighlight %}
+```
 
 <p>
-    <code>Optimus\OAuth2Server\OAuth2ServerServiceProvider</code> is a replacement for the original server provider provided by 
-    lucadegasperi's package. The original package tries to register route filters which are not supported in Lumen and should be 
-    replaced with route middleware. 
+    <code>Optimus\OAuth2Server\OAuth2ServerServiceProvider</code> is a replacement for the original server provider provided by
+    lucadegasperi's package. The original package tries to register route filters which are not supported in Lumen and should be
+    replaced with route middleware.
 </p>
 
 <p>
-    Additionally, the original service provider registers assets to be published using 
+    Additionally, the original service provider registers assets to be published using
     <code>php artisan vendor:publish</code>. Package asset publishing is not available in Lumen, we therefore have to copy it manually.
 </p>
 
 ### Creating configuration file
 
 <p>
-    Inside <code>Optimus\OAuth2Server\OAuth2ServerServiceProvider</code> a config file is registered into the application using 
-    <code>$this->app->configure("oauth2");</code>. Inside Lumen's application class the container looks for the oauth config file 
-    inside a config folder that can be configured using <code>Laravel\Lumen\Application::useConfigPath</code>, however if you have 
-    not configured a folder the default is <code>{projectRoot}/config</code>. This folder <u>DOES NOT EXIST</u> by default, so we 
+    Inside <code>Optimus\OAuth2Server\OAuth2ServerServiceProvider</code> a config file is registered into the application using
+    <code>$this->app->configure("oauth2");</code>. Inside Lumen's application class the container looks for the oauth config file
+    inside a config folder that can be configured using <code>Laravel\Lumen\Application::useConfigPath</code>, however if you have
+    not configured a folder the default is <code>{projectRoot}/config</code>. This folder <u>DOES NOT EXIST</u> by default, so we
     have to create it.
 </p>
 
 <p>
-    When you have created the folder, copy <code>vendor/lucadegasperi/oauth2-server-laravel/config/oauth2.php</code> 
+    When you have created the folder, copy <code>vendor/lucadegasperi/oauth2-server-laravel/config/oauth2.php</code>
     into it. Your project structure should now look like this.
 </p>
 
-{% highlight bash %}
+```bash
 app/
 bootstrap/
 config/            <--- the folder we just created
@@ -91,16 +91,16 @@ config/            <--- the folder we just created
 database/
 public/
 ... etc
-{% endhighlight %}
+```
 
 ### Registering middleware
 
 <p>
-    Lastly, we will register the route middleware which will replace the original route filters. In <code>app/bootstrap.php</code> insert the following. These will be used to protecting our API routes from unauthorized 
+    Lastly, we will register the route middleware which will replace the original route filters. In <code>app/bootstrap.php</code> insert the following. These will be used to protecting our API routes from unauthorized
     users.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 $app->middleware([
     'LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware'
 ]);
@@ -111,12 +111,12 @@ $app->routeMiddleware([
     'oauth' => 'Optimus\OAuth2Server\Middleware\OAuthMiddleware',
     'oauth-owner' => 'Optimus\OAuth2Server\Middleware\OAuthOwnerMiddleware'
 ]);
-{% endhighlight %}
+```
 
 ### Migrating OAuth database tables
 
 <p>
-    This step is unfortunately very hackish. If anyone knows a better way to do this I will be very happy 
+    This step is unfortunately very hackish. If anyone knows a better way to do this I will be very happy
     to hear from you! The problem is we cannot rollback the migrations when doing this.
 </p>
 
@@ -127,19 +127,19 @@ $app->routeMiddleware([
     To setup the config alias and enabling facades go to <code>bootstrap/app.php</code> and insert the following code.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 // It is recommended to remove ALL these lines after the migrations have run.
 class_alias('Illuminate\Support\Facades\Config', 'Config');
 $app->withFacades();
-{% endhighlight %}
+```
 
 <p>
     Now run the migrations.
 </p>
 
-{% highlight bash %}
+```bash
 php artisan migrate --path=vendor/lucadegasperi/oauth2-server-laravel/migrations
-{% endhighlight %}
+```
 
 <p>
     I highly recommended removing the class_alias and facade enabling after the migrations have run.
@@ -154,14 +154,14 @@ php artisan migrate --path=vendor/lucadegasperi/oauth2-server-laravel/migrations
 ### Configuring OAuth grant types
 
 <p>
-    We have to configure OAuth and tell what grant types we want to support in our API. Here, we are 
-    going to support the resource owner credentials grant and the refresh token grant. The 
-    resource owner credentials grant means requesting an access token using login and password. 
-    Open up <code>config/oauth2.php</code> and <u>replace</u> the <code>grant_types</code> key 
+    We have to configure OAuth and tell what grant types we want to support in our API. Here, we are
+    going to support the resource owner credentials grant and the refresh token grant. The
+    resource owner credentials grant means requesting an access token using login and password.
+    Open up <code>config/oauth2.php</code> and <u>replace</u> the <code>grant_types</code> key
     with the following code.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 'grant_types' => [
     'password' => [
         'class' => '\League\OAuth2\Server\Grant\PasswordGrant',
@@ -185,13 +185,13 @@ php artisan migrate --path=vendor/lucadegasperi/oauth2-server-laravel/migrations
         'refresh_token_ttl' => 36000
     ]
 ]
-{% endhighlight %}
+```
 
 ### Create an OAuth client
 
 <p>
-    We have to create a client in the database. I usually do this using a database seeder. Before we do 
-    that let us create a config file that will contain our client id and secret. In production it is 
+    We have to create a client in the database. I usually do this using a database seeder. Before we do
+    that let us create a config file that will contain our client id and secret. In production it is
     recommended to do this as environment variables rather than a config file.
 </p>
 
@@ -199,22 +199,22 @@ php artisan migrate --path=vendor/lucadegasperi/oauth2-server-laravel/migrations
     Create a config file <code>config/secrets.php</code>.
 </p>
 
-{% highlight php %}
+```php
 <?php
 return [
     'client_id' => 1,
     'client_secret' => 'gKYG75sw'
 ];
 ?>
-{% endhighlight %}
+```
 
 <p>
-    ... also create an app config file if you do not already have one <code>config/app.php</code>. 
-    Put in the url of your app. Also put in a 12, 32 or 64 character random string as app key. 
+    ... also create an app config file if you do not already have one <code>config/app.php</code>.
+    Put in the url of your app. Also put in a 12, 32 or 64 character random string as app key.
     <u>This is important! Otherwise the encrypter will throw an exception later on.</u>
 </p>
 
-{% highlight php %}
+```php
 <?php
 return [
     'url' => 'http://oauth-tutorial.dev',
@@ -222,7 +222,7 @@ return [
     'cipher' => 'AES-256-CBC'
 ];
 ?>
-{% endhighlight %}
+```
 
 <i>
     Note: the cipher entry was added 22nd of June, as this is now a required configuration since Lumen 5.1 for the encrypt/decrypt library to work.
@@ -232,16 +232,16 @@ return [
     Add configure statement to <code>bootstrap/app.php</code>
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 $app->configure('app');
 $app->configure('secrets');
-{% endhighlight %}
+```
 
 <p>
     Now create a seed file <code>database/seeds/OAuthSeeder.php</code>
 </p>
 
-{% highlight php %}
+```php
 <?php
 
 use Illuminate\Database\Seeder;
@@ -259,42 +259,42 @@ class OAuthSeeder extends Seeder {
             'id' => $config->get('secrets.client_id'),
             'secret' => $config->get('secrets.client_secret'),
             'name' => 'App'
-        ]);   
+        ]);
     }
 
 }
 
 ?>
-{% endhighlight %}
+```
 
 <p>
     ... and tell add the seed statement to <code>database/seeds/DatabaseSeeder.php</code>
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 $this->call('OAuthSeeder');
-{% endhighlight %}
+```
 
 <p>
-    Now you can finally seed the database. First redump the autoload to get the newly created 
+    Now you can finally seed the database. First redump the autoload to get the newly created
     OAuth seeder file in the autoload file.
 </p>
 
-{% highlight bash %}
+```bash
 composer dump-autoload && php artisan db:seed
-{% endhighlight %}
+```
 
 ### Creating a user database
 
 <p>
-    We need a database of users to auth. This is not put in Lumen out-of-the-box, but we can 
-    quickly borrow some classes from the Laravel repository to set it up. I have used this 
-    <a href="https://github.com/laravel/laravel/blob/master/app/User.php" target="_blank">user model</a> 
+    We need a database of users to auth. This is not put in Lumen out-of-the-box, but we can
+    quickly borrow some classes from the Laravel repository to set it up. I have used this
+    <a href="https://github.com/laravel/laravel/blob/master/app/User.php" target="_blank">user model</a>
     and put it in <code>app/Auth/User.php</code>
 </p>
 
-{% highlight php %}
-<?php 
+```php
+<?php
 
 namespace App\Auth;
 
@@ -326,14 +326,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 }
 ?>
-{% endhighlight %}
+```
 
 <p>
-    also, create a migration file using <code>php artisan make:migration create_users_table</code> and put 
+    also, create a migration file using <code>php artisan make:migration create_users_table</code> and put
     in this code.
 </p>
 
-{% highlight php %}
+```php
 <?php
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -366,13 +366,13 @@ class CreateUsersTable extends Migration {
     }
 }
 ?>
-{% endhighlight %}
+```
 
 <p>
     Create a UserSeeder in <code>database/seeds/UserSeeder.php</code>.
 </p>
 
-{% highlight php %}
+```php
 <?php
 
 use Illuminate\Database\Seeder;
@@ -391,40 +391,40 @@ class UserSeeder extends Seeder {
             'name' => 'User',
             'email' => 'user@user.com',
             'password' => $hasher->make('1234')
-        ]); 
+        ]);
         $user->save();
     }
 
 }
 
 ?>
-{% endhighlight %}
+```
 
 <p>
     ... and add it to the database seeder <code>database/seeds/DatabaseSeeder.php</code>
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 $this->call('UserSeeder');
-{% endhighlight %}
+```
 
 <p>
     Finally dump autoload, migrate and seed.
 </p>
 
-{% highlight bash %}
+```bash
 composer dump-autoload && php artisan migrate && php artisan db:seed
-{% endhighlight %}
+```
 
 ### Defining some API routes
 
 <p>
-    Now that we have our database seeded with a OAuth client and a test user, we need to create some 
-    routes for our API. Go to <code>app/Http/routes.php</code> and 
+    Now that we have our database seeded with a OAuth client and a test user, we need to create some
+    routes for our API. Go to <code>app/Http/routes.php</code> and
     add the following routes.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 $app->get('/', function() use ($app) {
     return view()->make('client');
 });
@@ -451,11 +451,11 @@ $app->group(['prefix' => 'api', 'middleware' => 'oauth'], function($app)
         ]);
     });
 });
-{% endhighlight %}
+```
 
 <p>
-    <code>POST oauth/access-token</code> is the url that will issue the access token. For security reasons we will not call this directly, but through a proxy. This is to hide the client id and secret 
-    from the client. To read up on this specific issue I highly recommend the article <a href="http://jeremymarc.github.io/2014/08/14/oauth2-with-angular-the-right-way/" target="_blank">Oauth2 with Angular: The right way</a>. Instead we will attempt to login using <code>POST login</code> which 
+    <code>POST oauth/access-token</code> is the url that will issue the access token. For security reasons we will not call this directly, but through a proxy. This is to hide the client id and secret
+    from the client. To read up on this specific issue I highly recommend the article <a href="http://jeremymarc.github.io/2014/08/14/oauth2-with-angular-the-right-way/" target="_blank">Oauth2 with Angular: The right way</a>. Instead we will attempt to login using <code>POST login</code> which
     will call <code>POST oauth/access-token</code> using a proxy written with <code>GuzzleHttp/guzzle</code>.
 </p>
 
@@ -464,28 +464,28 @@ $app->group(['prefix' => 'api', 'middleware' => 'oauth'], function($app)
 </p>
 
 <p>
-    <code>GET api/resource</code> is an API endpoint for a resource named resource. It uses 
-    the OAuth route middleware to check for a valid access token which we will pass to the authorization header 
+    <code>GET api/resource</code> is an API endpoint for a resource named resource. It uses
+    the OAuth route middleware to check for a valid access token which we will pass to the authorization header
     later on.
 </p>
 
 ### Writing our proxy
 
 <p>
-    It is never good practice to store ones client id and secret in the client for everyone to read. 
-    We therefore hide it by making a proxy that will issue our access token for us. First require 
+    It is never good practice to store ones client id and secret in the client for everyone to read.
+    We therefore hide it by making a proxy that will issue our access token for us. First require
     Guzzle
 </p>
 
-{% highlight bash %}
+```bash
 composer require guzzlehttp/guzzle
-{% endhighlight %}
+```
 
 <p>
     Next create the file <code>app/Auth/Proxy.php</code> and paste the following code.
 </p>
 
-{% highlight php %}
+```php
 <?php
 
 namespace App\Auth;
@@ -494,7 +494,7 @@ use GuzzleHttp\Client;
 
 class Proxy {
 
-    public function attemptLogin($credentials) 
+    public function attemptLogin($credentials)
     {
         return $this->proxy('password', $credentials);
     }
@@ -503,13 +503,13 @@ class Proxy {
     {
         $crypt = app()->make('encrypter');
         $request = app()->make('request');
-        
+
         return $this->proxy('refresh_token', [
             'refresh_token' => $crypt->decrypt($request->cookie('refreshToken'))
-        ]); 
+        ]);
     }
 
-    private function proxy($grantType, array $data = []) 
+    private function proxy($grantType, array $data = [])
     {
         try {
             $config = app()->make('config');
@@ -526,7 +526,7 @@ class Proxy {
             ]);
         } catch(\GuzzleHttp\Exception\BadResponseException $e) {
             $guzzleResponse = $e->getResponse();
-            
+
         }
 
         $response = json_decode($guzzleResponse->getBody());
@@ -538,12 +538,12 @@ class Proxy {
             $encryptedToken = $crypt->encrypt($response->refresh_token);
 
             // Set the refresh token as an encrypted HttpOnly cookie
-            $cookie->queue('refreshToken', 
+            $cookie->queue('refreshToken',
                 $crypt->encrypt($encryptedToken),
                 604800, // expiration, should be moved to a config file
-                null, 
-                null, 
-                false, 
+                null,
+                null,
+                false,
                 true // HttpOnly
             );
 
@@ -566,7 +566,7 @@ class Proxy {
 
 }
 ?>
-{% endhighlight %}
+```
 
 <i>
     Note: some changes were added to the proxy class on 22nd of June 2015, as Guzzle 6 was released and it depreciated the use of the 'body' key for POST params. It also included the use of PSR-7 responses which to not have a json() function.
@@ -580,34 +580,34 @@ class Proxy {
 2. Refresh the access token (access token has expired)
 
 <p>
-    Because we do not want to expose our client we do it through a proxy created with Guzzle. If 
-    we login we save the refresh token in a HttpOnly cookie (a cookie that cannot be accessed by 
+    Because we do not want to expose our client we do it through a proxy created with Guzzle. If
+    we login we save the refresh token in a HttpOnly cookie (a cookie that cannot be accessed by
     client side scripts thus mitigating XSS attacks).
 </p>
 
 <p>
-    If we request a refresh of our access token the server will decrypt the cookie and send it 
+    If we request a refresh of our access token the server will decrypt the cookie and send it
     with the proxy request. If the refresh token is valid a new access token will be issued.
 </p>
 
 #### Registering cookie middleware
 
 <p>
-    The proxy utilizes queued cookies. To utilize this in Lumen we have to register 
+    The proxy utilizes queued cookies. To utilize this in Lumen we have to register
     <code>AddQueuedCookiesToResponse</code> middleware in <code>bootstrap/app.php</code>
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 $app->middleware([
     'LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware',
     'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse'  // <--- added
 ]);
-{% endhighlight %}
+```
 
 ## Building a small client
 
 <p>
-    We will build a small client in javascript that will interact with our API. Basically the client will have 
+    We will build a small client in javascript that will interact with our API. Basically the client will have
     three actions.
 </p>
 
@@ -616,11 +616,11 @@ $app->middleware([
 3. Logout by removing the access token from local storage
 
 <p>
-    Let us build a quick skeleton for our client. Create the file <code>resources/views/client.blade.php</code> 
+    Let us build a quick skeleton for our client. Create the file <code>resources/views/client.blade.php</code>
     and add the markup below to it.
 </p>
 
-{% highlight html %}
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -632,46 +632,46 @@ $app->middleware([
     <script type="text/javascript" src="/js/client.js"></script>
   </head>
   <body>
-    
+
     <button id="login">Login to API</button>
     <button id="request">Request resource</button>
     <button id="logout">Logout</button>
 
   </body>
 </html>
-{% endhighlight %}
+```
 
 <p>
-    Now we need to install client dependencies. I highly recommend using Bower. We will use 
-    my library <a href="https://github.com/esbenp/jquery-oauth" target="_blank">esbenp/jquery-oauth</a> 
+    Now we need to install client dependencies. I highly recommend using Bower. We will use
+    my library <a href="https://github.com/esbenp/jquery-oauth" target="_blank">esbenp/jquery-oauth</a>
     to manage and store the access token in the client.
 </p>
 
 <p>
-    First we need to configure bower to use right installation path. Add the file <code>.bowerrc</code> 
+    First we need to configure bower to use right installation path. Add the file <code>.bowerrc</code>
     to your project root.
 </p>
 
-{% highlight json %}
+```json
 {
   "directory": "public/vendor/"
 }
-{% endhighlight %}
+```
 
 <p>
     Now install <code>jquery-oauth</code>
 </p>
 
-{% highlight bash %}
+```bash
 bower install --save jquery-oauth
-{% endhighlight %}
+```
 
 <p>
-    Now we will build the small client that will interact with the API. Create the file <code>public/js/client.js</code> 
+    Now we will build the small client that will interact with the API. Create the file <code>public/js/client.js</code>
     and add the code.
 </p>
 
-{% highlight javascript %}
+```javascript
 var Client = function Client() {
     this.authClient = null;
 
@@ -712,7 +712,7 @@ Client.prototype._logout = function _logout() {
 
 Client.prototype._request = function _request() {
     var resource = $.ajax({
-        url: "/api/resource", 
+        url: "/api/resource",
         statusCode: {
             400: function() {
                 alert('Since we did not send an access token we get client error');
@@ -756,7 +756,7 @@ Client.prototype._setupEventHandlers = function _setupEventHandlers() {
 $(document).ready(function() {
     var client = new Client;
 });
-{% endhighlight %}
+```
 
 <p>
     Three things are going on here that are worth noticing.
@@ -772,38 +772,38 @@ $(document).ready(function() {
 #### 2. jquery-oauth for access token management and storage
 
 <p>
-    <a href="https://github.com/esbenp/jquery-oauth" target="_blank">esbenp/jquery-oauth</a> is setup as the 
-    first thing for managing access tokens. It will store the access token in localstorage. If you refresh 
-    the page it will look for the access token and reauthenticate the user if a token was found. When a new 
-    access token is passed to the manager it will automatically add a authorization header 
-    <code>Authorization: Bearer {accessToken}</code> to all subsequent requests. This is used by our API 
+    <a href="https://github.com/esbenp/jquery-oauth" target="_blank">esbenp/jquery-oauth</a> is setup as the
+    first thing for managing access tokens. It will store the access token in localstorage. If you refresh
+    the page it will look for the access token and reauthenticate the user if a token was found. When a new
+    access token is passed to the manager it will automatically add a authorization header
+    <code>Authorization: Bearer {accessToken}</code> to all subsequent requests. This is used by our API
     to authenticate the user.
 </p>
 
 <p>
-    Because access tokens are short lifed by design (10 minutes) the user will eventually request the API with 
-    an expired token. When this happens a 401 response will be sent back to the client. jquery-oauth picks up 
-    on this response and buffers all the requests that are sent to the server with 401 responses. It will request 
-    a new access token using the refresh token. If the refresh token is still valid and an new access token is 
+    Because access tokens are short lifed by design (10 minutes) the user will eventually request the API with
+    an expired token. When this happens a 401 response will be sent back to the client. jquery-oauth picks up
+    on this response and buffers all the requests that are sent to the server with 401 responses. It will request
+    a new access token using the refresh token. If the refresh token is still valid and an new access token is
     acquired all the buffered requests will be refired.
 </p>
 
 #### 3. API requests have proper headers automatically set
 
 <p>
-    As previosuly mentioned when we call <code>GET /resource</code> using <code>$.ajax</code> jquery-oauth 
-    will already have our access token attached as a header. The OAuth2 middleware on the server will check 
+    As previosuly mentioned when we call <code>GET /resource</code> using <code>$.ajax</code> jquery-oauth
+    will already have our access token attached as a header. The OAuth2 middleware on the server will check
     if the access token is valid before returning our resource.
 </p>
 
 ## Conclusion
 
 <p>
-    We have now (1) installed an OAuth2 Lumen server, (2) configured it with proper management and user infrastructure, 
+    We have now (1) installed an OAuth2 Lumen server, (2) configured it with proper management and user infrastructure,
     and lastly (3) created a simple example of a client that effectively manages tokens and API requests.
 </p>
 
 <p>
-    The code for this post can be found at <a href="https://github.com/esbenp/lumen-api-oauth" target="_blank">https://github.com/esbenp/lumen-api-oauth</a>. 
+    The code for this post can be found at <a href="https://github.com/esbenp/lumen-api-oauth" target="_blank">https://github.com/esbenp/lumen-api-oauth</a>.
     Questions are welcome at <a href="mailto:ep@traede.com">ep@traede.com</a> or twitter <a href="https://twitter.com/esbenp">@esbenp</a>
 </p>

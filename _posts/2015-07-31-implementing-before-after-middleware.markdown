@@ -113,7 +113,7 @@ header-img: "img/post-bg-03.jpg"
     Each actor that interacts with the object will log itself in the array.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 class BeforeLayer implements LayerInterface {
 
     public function peel($object, Closure $next)
@@ -154,13 +154,13 @@ $end = $onion->layer([
             });
 
 var_dump($end);
-{% endhighlight %}
+```
 
 <p>
     The result of this will be
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 ..object(stdClass)#161 (1) {
   ["runs"]=>
   array(5) {
@@ -176,7 +176,7 @@ var_dump($end);
     string(5) "after"
   }
 }
-{% endhighlight %}
+```
 
 <p>
     As you can see all the before middleware will run before the core,
@@ -185,7 +185,7 @@ var_dump($end);
     So how do we actually define what to run before and what to run after?
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 class Layer implements LayerInterface {
 
     public function peel($object, Closure $next)
@@ -202,7 +202,7 @@ class Layer implements LayerInterface {
     }
 
 }
-{% endhighlight %}
+```
 
 <p>
     The function <code>$next</code> we pass to all layers is the function that
@@ -212,7 +212,7 @@ class Layer implements LayerInterface {
     is next middleware. Take a look at the layers we previously used in our example.
 </p>
 
-{% highlight php startinline %}
+```php?start_inline=1
 class BeforeLayer implements LayerInterface {
 
     public function peel($object, Closure $next)
@@ -236,7 +236,7 @@ class AfterLayer implements LayerInterface {
     }
 
 }
-{% endhighlight %}
+```
 
 ## And that's a wrap
 

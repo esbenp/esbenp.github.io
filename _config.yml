@@ -11,14 +11,16 @@ facebook_username:  esbenspetersen
 timezone: Europe/Copenhagen
 
 # Build settings
-highlighter: pygments
+highlighter: rouge
 permalink: pretty
 paginate: 5
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
 
 # Build settings
-markdown: redcarpet
+markdown: kramdown
 markdown_ext:  markdown,mkdown,mkdn,mkd,md
 
-redcarpet:
-  extensions: ["tables", "autolink", "strikethrough", "space_after_headers", "with_toc_data", "fenced_code_blocks"]
+kramdown:
+  input: GFM
+
+gems: [jekyll-paginate]
