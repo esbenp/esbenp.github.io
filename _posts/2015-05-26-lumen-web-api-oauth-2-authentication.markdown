@@ -2,7 +2,7 @@
 layout:     post
 title:      "Building a web app with Lumen web API and OAuth2 authentication"
 subtitle:   "Build a web API using Lumen micro-framework and OAuth2 authentication"
-date:       2015-05-26 12:00:00
+date:       2015-05-26 12:00:00 +0200
 author:     "Esben Petersen"
 header-img: "img/post-bg-01.jpg"
 ---
