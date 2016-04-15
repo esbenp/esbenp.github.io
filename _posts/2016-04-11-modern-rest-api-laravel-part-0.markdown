@@ -91,6 +91,10 @@ header-img: "img/post-bg-01.jpg"
   in <a href="https://getsentry.com/">Sentry - an online exception tracker service</a>.
 </p>
 
+<p>
+  <i>Coming soon...</i>
+</p>
+
 ### Part 4: Authentication & Authorization
 
 <p>
@@ -103,10 +107,18 @@ header-img: "img/post-bg-01.jpg"
   at some authorization principles.
 </p>
 
+<p>
+  <i>Coming soon...</i>
+</p>
+
 ### Part 5: Inbound & outbound webhooks
 
 <p>
   A really kick ass API can integrate with other APIs. This can often happen through webhooks.
   We will look at how you can handle input from other APIs as well as how you can enable consumers
   to integrate with your API using outbound webooks.
+</p>
+
+<p>
+  <i>Coming soon...</i>
 </p>
