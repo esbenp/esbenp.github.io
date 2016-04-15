@@ -67,7 +67,7 @@ header-img: "img/post-bg-01.jpg"
   <strong><a href="/2016/04/11/modern-rest-api-laravel-part-1/">Go to part 1</a></strong>
 </p>
 
-### Part 2: Creating resources with controls
+<h3><a href="/2016/04/15/modern-rest-api-laravel-part-2/">Part 2: Creating resources with controls</a></h3>
 
 <p>
   The second part will be building resources. Building resources in itself is pretty
@@ -77,6 +77,10 @@ header-img: "img/post-bg-01.jpg"
 
 <p>
   We will try to implement some of <a href="http://optimus.rocks">my own Laravel API libraries</a> in order to achieve this.
+</p>
+
+<p>
+  <strong><a href="/2016/04/15/modern-rest-api-laravel-part-2/">Go to part 2</a></strong>
 </p>
 
 ### Part 3: Error handling
