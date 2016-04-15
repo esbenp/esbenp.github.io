@@ -10,11 +10,11 @@ header-img: "img/post-bg-01.jpg"
 ## tl;dr
 
 <p>
-  <a href="https://github.com/esbenp/laravel-controller">Optimus\LaravelController</a> will
+  <a href="https://github.com/esbenp/bruno">Optimus\Bruno</a> will
   enable you to filter, paginate, sort and eager load related resources through query
   string parameters. <a href="https://github.com/esbenp/architect">Optimus\Architect</a> will
   enable the consumer to decide how the eager loaded related resources should be
-  structured. Lastly, <a href="https://github.com/esbenp/eloquent">Optimus\Eloquent</a>
+  structured. Lastly, <a href="https://github.com/esbenp/genie">Optimus\Genie</a>
   provides a quick integrated way to implement the two libraries without having
   to add a lot of new code.
 </p>
@@ -314,7 +314,7 @@ let agents = users
 
 <p>
   To implement this I have written a small library:
-  <a href="https://github.com/esbenp/laravel-controller">Laravel controller</a>.
+  <a href="https://github.com/esbenp/bruno">Bruno</a>.
   To find more details about this library and its features you can read its
   README.
 </p>
@@ -422,8 +422,8 @@ $this->applyResourceOptions($query, $resourceOptions);
 
 <p>
   You can do a lot more cool stuff with filters, and
-  <a href="https://github.com/esbenp/laravel-controller">
-  I suggest you check out the syntax in the Laravel controller repository</a>.
+  <a href="https://github.com/esbenp/bruno">
+  I suggest you check out the syntax in the Bruno repository</a>.
 </p>
 
 <p>
@@ -592,7 +592,7 @@ public function getAll()
 <p>
   So we pass along the resource control options to the service so it can pass it along to
   the repository. If your repositories extend my
-  <a href="https://github.com/esbenp/eloquent">Eloquent repository</a> it will already
+  <a href="https://github.com/esbenp/genie">Eloquent repository base class Genie</a> it will already
   have the helper functions build-in needed to use the resource options.
 </p>
 
@@ -611,7 +611,7 @@ public function getAll($options = [])
 
 <p>
   The <code>get</code> method of the repository is
-  <a href="https://github.com/esbenp/eloquent/blob/master/src/Repository.php#L33">
+  <a href="https://github.com/esbenp/genie/blob/master/src/Repository.php#L33">
   build into the previously mentioned repository base class</a>,
   so we do not even need to implement it.
 </p>
@@ -831,9 +831,9 @@ $parsedData = $this->parseData($books, $resourceOptions, 'users');
 <p>
   By implementing a few simple libraries like
   <a href="https://github.com/esbenp/architect">Optimus\Architect</a>,
-  <a href="https://github.com/esbenp/laravel-controller">
-  Optimus\LaravelController</a> and
-  <a href="https://github.com/esbenp/eloquent">Optimus\Eloquent</a> you
+  <a href="https://github.com/esbenp/bruno">
+  Optimus\Bruno</a> and
+  <a href="https://github.com/esbenp/genie">Optimus\Genie</a> you
   can rapidly create resources that scale well and easily grant your
   consumers the flexibility they need whilst keeping your own development
   flow sane.
