@@ -199,7 +199,7 @@ export default reduxForm({
   provides empty values.
 </p>
 
-<img src="/img/submit-console-1.jpg" />
+<img src="/img/react-native-redux-form/submit-console-1.jpg" />
 
 <p class="note">
   Yo, where my values?
