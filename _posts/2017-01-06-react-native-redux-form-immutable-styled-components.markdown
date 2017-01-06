@@ -362,7 +362,7 @@ export default reduxForm({
 
 ### 2nd step: Design an awesome form
 
-<img src="/img/react-native-clean-form.jpg" />
+<img src="/img/react-native-redux-form/react-native-clean-form.jpg" />
 
 <p>
   Looks dope, does it not? Lets dive right into the code.
