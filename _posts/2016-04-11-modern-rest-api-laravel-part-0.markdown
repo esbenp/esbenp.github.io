@@ -92,7 +92,7 @@ header-img: "img/post-bg-01.jpg"
 </p>
 
 <p>
-  <i>Coming soon...</i>
+  <strong><a href="/2017/01/14/modern-rest-api-laravel-part-3/">Go to part 3</a></strong>
 </p>
 
 ### Part 4: Authentication & Authorization
