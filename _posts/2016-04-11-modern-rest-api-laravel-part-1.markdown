@@ -29,7 +29,7 @@ header-img: "img/post-bg-01.jpg"
   It is important to realize in software development no singular structure is the mother
   of all structures. It is important to build a toolbox of patterns which you can employ
   given different situations. This article will serve as an opinionated piece on how such a structure <i>could</i> look.
-  It has enabled <a href="http://traede.com/our-team">my team and I</a> to keep building
+  It has enabled <a href="http://traede.com/company">my team and I</a> to keep building
   features without introducing (too many :-)) breakages. For me, the structure I am about to show you works well right now,
   however it might well be that we refactor into a new one tomorrow. With that said, I hope you
   will find inspiration in what I am about to show you. :-)
