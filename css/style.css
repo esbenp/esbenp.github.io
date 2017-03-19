@@ -3,3 +3,7 @@
 	font-size:14px;
 	margin-top:0;
 }
+
+td a {
+	text-decoration:underline;
+}

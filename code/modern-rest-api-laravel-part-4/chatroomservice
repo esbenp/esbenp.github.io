@@ -1,0 +1,28 @@
+<?php
+
+namespace Api\ChatRooms\Services;
+
+use Api\ChatRooms\Repositories\ChannelRepository;
+use Illuminate\Auth\AuthManager;
+
+class ChatRoomService
+{
+    private $auth;
+
+    private $channelRepository;
+
+    public function __construct(AuthManager $auth, ChannelRepository $channelRepository)
+    {
+        $this->auth = $auth;
+        $this->channelRepository = $channelRepository;
+    }
+
+    public function getChannels()
+    {
+        $user = $this->auth->user();
+
+        $channels = $this->channelRepository->getWhere('chatroom_id', $user->chatroom_id);
+
+        return $channels;
+    }
+}

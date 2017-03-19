@@ -95,20 +95,22 @@ header-img: "img/post-bg-01.jpg"
   <strong><a href="/2017/01/14/modern-rest-api-laravel-part-3/">Go to part 3</a></strong>
 </p>
 
-### Part 4: Authentication & Authorization
+### Part 4: Authentication
 
 <p>
-  Almost any API needs some sort of authentication. I have already written a bit about <a href="http://esbenp.github.io/2015/05/26/lumen-web-api-oauth-2-authentication/">how
+  Almost any API needs some sort of authentication. I have already written a bit about
+  <a href="http://esbenp.github.io/2015/05/26/lumen-web-api-oauth-2-authentication/">how
   OAuth can be implemented in the Lumen framework</a>.
 </p>
 
 <p>
-  In this series we will also be using OAuth for authentication, however we will also be looking
-  at some authorization principles.
+  In this series we will also be using OAuth for authentication, however we will be
+  using Laravel's own implementation of The PHP League's OAuth Server:
+  <a target="_blank" href="https://laravel.com/docs/master/passport">Laravel Passport</a>.
 </p>
 
 <p>
-  <i>Coming soon...</i>
+  <strong><a href="/2017/03/19/modern-rest-api-laravel-part-4/">Go to part 4</a></strong>
 </p>
 
 ### Part 5: Inbound & outbound webhooks
