@@ -994,7 +994,7 @@ class ChatRoomService
 
 <p>
   The full code to this article can be found here:
-  <a href="https://github.com/esbenp/larapi-series-part-4">larapi-series-part-4</a>
+  <a href="https://github.com/esbenp/larapi-part-4">larapi-part-4</a>
 </p>
 
 <p>
