@@ -214,7 +214,7 @@ Content-Type: application/json
 </p>
 
 <p>
-  The only requirement for SON API errors is that each object is in an array keyed by <code>errors</code>.
+  The only requirement for JSON API errors is that each object is in an array keyed by <code>errors</code>.
   Then there is a list of members you can put in each error object. None are required.
   <a target="_blank" href="http://jsonapi.org/format/#error-objects">You can see the exhaustive list here</a>.
 </p>
