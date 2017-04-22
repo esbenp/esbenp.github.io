@@ -808,7 +808,7 @@ public function proxy($grantType, array $data = [])
   this to call one of our own routes. Of course if your authorization server lives on another server,
   or if you prefer to make the request over the internet then you can replace this with an alternative
   mechanism such as Guzzle.
-  <a target="_blank" href="http://localhost:4000/2015/05/26/lumen-web-api-oauth-2-authentication/">You can check out one of my older articles for a Guzzle example</a>.
+  <a target="_blank" href="http://esbenp.github.io/2015/05/26/lumen-web-api-oauth-2-authentication/">You can check out one of my older articles for a Guzzle example</a>.
 </p>
 
 <p>
