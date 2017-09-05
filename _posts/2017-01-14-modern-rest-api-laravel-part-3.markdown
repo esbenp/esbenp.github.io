@@ -16,7 +16,7 @@ header-img: "img/post-bg-04.jpg"
 
 <p>
   The full code to this article can be found here:
-  <a href="https://github.com/esbenp/larapi-series-part-3">larapi-series-part-3</a>
+  <a href="https://github.com/esbenp/larapi-part-3">larapi-part-3</a>
 </p>
 
 ## Introduction
@@ -652,7 +652,7 @@ class SentryReporter implements ReporterInterface
 
 <p>
   The full code to this article can be found here:
-  <a href="https://github.com/esbenp/larapi-series-part-3">larapi-series-part-3</a>
+  <a href="https://github.com/esbenp/larapi-part-3">larapi-part-3</a>
 </p>
 
 <p>
