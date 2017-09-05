@@ -164,7 +164,7 @@ DELETE /users/{id}
 
 <p>
   They way we are seeing the service class is as the glue of the operation. The goal of our example operation
-  <code>POST /users</code> is to create an user. The service class will function as the operator that pulls different
+  <code>POST /users</code> is to create a user. The service class will function as the operator that pulls different
   classes together in order to complete that operation.
 </p>
 
