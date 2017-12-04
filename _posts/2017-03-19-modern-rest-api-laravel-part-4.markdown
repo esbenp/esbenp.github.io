@@ -145,7 +145,7 @@ header-img: "img/post-bg-06.jpg"
   API now know which user is requesting.
 </p>
 
-#### Step 4. Request a new token using the fresh token when the access token expires
+#### Step 4. Request a new token using the refresh token when the access token expires
 
 <p>
   Remember in step 3 that the authentication server sends both an access token and a refresh token?
